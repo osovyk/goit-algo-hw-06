@@ -1,4 +1,4 @@
-from task_1 import G_metro
+from task_1 import *
 from collections import deque
 
 # Реалізація алгоритму DFS для знаходження шляху

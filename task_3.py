@@ -1,4 +1,4 @@
-from task_1 import G_metro
+from task_1 import *
 
 
 # Алгоритм Дейкстри для пошуку найкоротшого шляху
@@ -56,8 +56,8 @@ def get_shortest_path(previous_vertices, goal):
 
 
 if __name__ == "__main__":
-    start_node = "Е_Лівобережна"
-    goal_node = "Е_Почайна"
+    start_node = "Е_Микільська Слобідка"
+    goal_node = "Контрактова площа"
 
     # Перевіряємо, чи є вершини у графі
     if start_node not in G_metro:

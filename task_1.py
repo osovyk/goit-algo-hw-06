@@ -1,4 +1,5 @@
 import networkx as nx
+import scipy as sp
 import matplotlib.pyplot as plt
 
 metro_edges_m1 = [
@@ -99,7 +100,7 @@ metro_to_electric_transfers = [
 ]
 
 # Створюємо граф
-G_metro = nx.DiGraph()
+G_metro = nx.Graph()
 
 # Додаємо ребра для всіх ліній метро та міської електрички
 G_metro.add_weighted_edges_from(metro_edges_m1)
@@ -110,26 +111,30 @@ G_metro.add_weighted_edges_from(metro_transfers)
 G_metro.add_weighted_edges_from(metro_to_electric_transfers)
 
 # Візуалізація
-pos = nx.spring_layout(G_metro, seed=42)
+# pos = nx.spring_layout(G_metro)
+pos = nx.kamada_kawai_layout(G_metro)
+# pos = nx.circular_layout(G_metro)
+# pos = nx.shell_layout(G_metro)
 
-plt.figure(figsize=(30, 20))
+plt.figure(figsize=(20, 15))
 
-# Малюємо кожну лінію метро з різним кольором
-nx.draw_networkx_edges(G_metro, pos, edgelist=metro_edges_m1, edge_color="red", width=2)
-nx.draw_networkx_edges(G_metro, pos, edgelist=metro_edges_m2, edge_color="blue", width=2)
-nx.draw_networkx_edges(G_metro, pos, edgelist=metro_edges_m3, edge_color="green", width=2)
-nx.draw_networkx_edges(G_metro, pos, edgelist=electric_edges, edge_color="orange", width=2)
-nx.draw_networkx_edges(G_metro, pos, edgelist=metro_transfers, edge_color="black", width=2)
-nx.draw_networkx_edges(G_metro, pos, edgelist=metro_to_electric_transfers, edge_color="black", width=2)
+# Малюємо кожну лінію метро різними кольорами
+nx.draw_networkx_edges(G_metro, pos, edgelist=metro_edges_m1, edge_color="red", width=1.5, alpha=0.7)
+nx.draw_networkx_edges(G_metro, pos, edgelist=metro_edges_m2, edge_color="blue", width=1.5, alpha=0.7)
+nx.draw_networkx_edges(G_metro, pos, edgelist=metro_edges_m3, edge_color="green", width=1.5, alpha=0.7)
+nx.draw_networkx_edges(G_metro, pos, edgelist=electric_edges, edge_color="orange", width=1.5, alpha=0.7)
+nx.draw_networkx_edges(G_metro, pos, edgelist=metro_transfers, edge_color="black", width=1.5, alpha=0.7)
+nx.draw_networkx_edges(G_metro, pos, edgelist=metro_to_electric_transfers, edge_color="black", width=1.5, alpha=0.7)
 
 # Малюємо вершини (станції)
-nx.draw_networkx_nodes(G_metro, pos, node_size=300, node_color="lightgray")
+nx.draw_networkx_nodes(G_metro, pos, node_size=200, node_color="lightgray", alpha=0.9)
 
 # Підписи станцій
-nx.draw_networkx_labels(G_metro, pos, font_size=10, font_family="sans-serif")
+nx.draw_networkx_labels(G_metro, pos, font_size=8, font_family="sans-serif")
 
+# Підписи для ваг на ребрах
 labels = nx.get_edge_attributes(G_metro, "weight")
-nx.draw_networkx_edge_labels(G_metro, pos, edge_labels=labels)
+nx.draw_networkx_edge_labels(G_metro, pos, edge_labels=labels, font_size=8)
 
 plt.title("Київський метрополітен та міська електричка", fontsize=15)
 plt.show()
